@@ -18,7 +18,6 @@ void quick_sort(int *array, size_t size)
  * @array: Array argument
  * @low: Start of array
  * @high: End of array
- * @s: size of array
  *
  * Return: Void
  */
@@ -26,7 +25,7 @@ void quick_sort_rec(int *array, int low, int high, size_t *s)
 {
 	int piv_index;
 
-	if (low <= high)
+	if (low < high)
 	{
 		piv_index = partition(array, low, high);
 		print_array(array, *s);
@@ -45,25 +44,26 @@ void quick_sort_rec(int *array, int low, int high, size_t *s)
  */
 int partition(int *array, int low, int high)
 {
-	int pivot = array[high];
-	int i = low - 1, j;
+	int piv_value = array[high];
+	int i = low, j;
 
-	for (j = low; j <= high - 1; j++)
+	for (j = low; j < high; j++)
 	{
-		if (array[j] < pivot)
+		if (array[j] <= piv_value)
 		{
-			i++;
 			swap(&array[i], &array[j]);
+			i++;
 		}
 	}
-	swap(&array[i + 1], &array[high]);
+	swap(&array[i], &array[high]);
 
-	return (i + 1);
+	return (i);
 }
 /**
  * swap - Swaps the elements of an array
  * @a: First Array element
  * @b: Second element
+ * @size: Size of the array
  *
  * Return: Void
  */
