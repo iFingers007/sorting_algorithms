@@ -12,7 +12,7 @@ void quick_sort(int *array, size_t size)
 {
 	if (array == NULL || size < 2)
 		return;
-	quick_sort_rec(array, 0, size - 1, &size);
+	quick_sort_rec(array, 0, size - 1, size);
 }
 /**
  * quick_sort_rec - sorts an array of integers in ascending order
@@ -24,14 +24,13 @@ void quick_sort(int *array, size_t size)
  *
  * Return: Void
  */
-void quick_sort_rec(int *array, int low, int high, size_t *s)
+void quick_sort_rec(int *array, int low, int high, size_t s)
 {
 	int piv_index;
 
-	if (low <= high)
+	if (low < high)
 	{
-		piv_index = partition(array, low, high);
-		print_array(array, *s);
+		piv_index = partition(array, low, high, s);
 		quick_sort_rec(array, low, piv_index - 1, s);
 		quick_sort_rec(array, piv_index + 1, high, s);
 	}
@@ -42,23 +41,32 @@ void quick_sort_rec(int *array, int low, int high, size_t *s)
  * @array: Array argument
  * @low: Start of array
  * @high: End of array
+ * @size: Size of the array
  *
  * Return: Index of pivot
  */
-int partition(int *array, int low, int high)
+int partition(int *array, int low, int high, size_t size)
 {
 	int pivot = array[high];
-	int i = low - 1, j;
+	int i = (low - 1), j;
 
-	for (j = low; j <= high - 1; j++)
+	for (j = low; j < high; j++)
 	{
-		if (array[j] < pivot)
+		if (pivot >= array[j])
 		{
 			i++;
-			swap(&array[i], &array[j]);
+			if (i != j)
+			{
+				swap(&array[i], &array[j]);
+				print_array(array, size);
+			}
 		}
 	}
-	swap(&array[i + 1], &array[high]);
+	if (high != i + 1)
+	{
+		swap(&array[i + 1], &array[high]);
+		print_array(array, size);
+	}
 
 	return (i + 1);
 }
@@ -71,11 +79,8 @@ int partition(int *array, int low, int high)
  */
 void swap(int *a, int *b)
 {
-	int temp;
+	int temp = *a;
 
-	if (a == NULL || b == NULL)
-		return;
-	temp = *a;
 	*a = *b;
 	*b = temp;
 }
