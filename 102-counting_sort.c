@@ -10,6 +10,7 @@
  */
 void counting_sort(int *array, size_t size)
 {
-	if (array == NULL || size < 2)
+	if (array == NULL)
 		return;
+	(void)size;
 }
