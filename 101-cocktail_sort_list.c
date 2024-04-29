@@ -9,6 +9,6 @@
  */
 void cocktail_sort_list(listint_t **list)
 {
-	if (list == NULL or *list == NULL)
+	if (list == NULL || *list == NULL)
 		return;
 }
